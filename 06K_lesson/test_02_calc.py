@@ -5,31 +5,36 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-driver = webdriver.Chrome(
-    service=ChromeService(ChromeDriverManager().install())
-)
 
-driver.get(
-    "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html"
-)
+def test_calc():
+    driver = webdriver.Chrome(
+        service=ChromeService(ChromeDriverManager().install())
+    )
+    driver.get(
+        "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html"
+    )
 
-delay_field = driver.find_element(By.CSS_SELECTOR, '#delay')
-delay_field.clear()
-delay_field.send_keys("45")
+    delay_field = driver.find_element(By.CSS_SELECTOR, '#delay')
+    delay_field.clear()
+    delay_field.send_keys("45")
 
-driver.find_element(By.XPATH, "//span[text()='7']").click()
-driver.find_element(By.XPATH, "//span[text()='+']").click()
-driver.find_element(By.XPATH, "//span[text()='8']").click()
-driver.find_element(By.XPATH, "//span[text()='=']").click()
+    driver.find_element(By.XPATH, "//span[text()='7']").click()
+    driver.find_element(By.XPATH, "//span[text()='+']").click()
+    driver.find_element(By.XPATH, "//span[text()='8']").click()
+    driver.find_element(By.XPATH, "//span[text()='=']").click()
 
-wait = WebDriverWait(driver, 50)
-wait.until(
-    EC.text_to_be_present_in_element((By.CSS_SELECTOR, ".screen"), "15")
-)
+    wait = WebDriverWait(driver, 50)
+    wait.until(
+        EC.text_to_be_present_in_element((By.CSS_SELECTOR, ".screen"), "15")
+    )
 
-result = driver.find_element(By.CSS_SELECTOR, ".screen").text
-assert result == "15", f"Ожидалось 15, получено {result}"
+    result = driver.find_element(By.CSS_SELECTOR, ".screen").text
+    assert result == "15", f"Ожидалось 15, получено {result}"
 
-print("Тест пройден: 7 + 8 = 15")
+    print("Тест пройден: 7 + 8 = 15")
 
-driver.quit()
+    driver.quit()
+
+
+if __name__ == "__main__":
+    test_calc()
