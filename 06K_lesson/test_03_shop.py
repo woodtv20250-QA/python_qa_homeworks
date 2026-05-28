@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def test_shop():
@@ -30,7 +32,9 @@ def test_shop():
     driver.find_element(By.CSS_SELECTOR, "#postal-code").send_keys("633159")
 
     driver.find_element(By.CSS_SELECTOR, "#continue").click()
-
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.visibility_of_element_located(
+        (By.CSS_SELECTOR, ".summary_total_label")))
     Total = driver.find_element(By.CSS_SELECTOR, ".summary_total_label").text
 
     Total = driver.find_element(By.CSS_SELECTOR, ".summary_total_label").text
